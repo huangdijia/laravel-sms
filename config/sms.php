@@ -10,7 +10,13 @@ return [
         'accessyou' => [
             'driver'         => \Huangdijia\Sms\Drivers\Accessyou::class,
             'validators'     => [
-                \Huangdijia\Sms\Validators\HkMobile::class,
+                'rules'    => [
+                    'to'      => ['required', new \Huangdijia\Sms\Rules\HkMobile],
+                    'content' => 'required',
+                ],
+                'messages' => [
+                    //
+                ],
             ],
             'account'        => env('ACCESSYOU_ACCOUNT', ''),
             'password'       => env('ACCESSYOU_PASSWORD', ''),
@@ -20,7 +26,13 @@ return [
         'mitake'    => [
             'driver'     => \Huangdijia\Sms\Drivers\Mitake::class,
             'validators' => [
-                \Huangdijia\Sms\Validators\TwMobile::class,
+                'rules'    => [
+                    'to'      => ['required', new \Huangdijia\Sms\Rules\TwMobile],
+                    'content' => 'required',
+                ],
+                'messages' => [
+                    //
+                ],
             ],
             'username'   => env('MITAKE_USERNAME', ''),
             'password'   => env('MITAKE_PASSWORD', ''),
@@ -29,7 +41,13 @@ return [
         'mxtong'    => [
             'driver'          => \Huangdijia\Sms\Drivers\Mxtong::class,
             'validators'      => [
-                \Huangdijia\Sms\Validators\CnMobile::class,
+                'rules'    => [
+                    'to'      => ['required', new \Huangdijia\Sms\Rules\CnMobile],
+                    'content' => 'required',
+                ],
+                'messages' => [
+                    //
+                ],
             ],
             'user_id'         => env('MXTONG_USER_ID', ''),
             'account'         => env('MXTONG_ACCOUNT', ''),
@@ -40,7 +58,13 @@ return [
         'smspro'    => [
             'driver'     => \Huangdijia\Sms\Drivers\Smspro::class,
             'validators' => [
-                \Huangdijia\Sms\Validators\HkMobile::class,
+                'rules'    => [
+                    'to'      => ['required', new \Huangdijia\Sms\Rules\HkMobile],
+                    'content' => 'required',
+                ],
+                'messages' => [
+                    //
+                ],
             ],
             "username"   => env('SMSPRO_USERNAME', ''),
             "password"   => env('SMSPRO_PASSWORD', ''),
@@ -49,7 +73,13 @@ return [
         'twsms'     => [
             'driver'     => \Huangdijia\Sms\Drivers\Twsms::class,
             'validators' => [
-                \Huangdijia\Sms\Validators\TwMobile::class,
+                'rules'    => [
+                    'to'      => ['required', new \Huangdijia\Sms\Rules\TwMobile],
+                    'content' => 'required',
+                ],
+                'messages' => [
+                    //
+                ],
             ],
             'account'    => env('TWSMS_ACCOUNT', ''),
             'password'   => env('TWSMS_PASSWORD', ''),

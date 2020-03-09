@@ -4,6 +4,7 @@ namespace Huangdijia\Sms;
 
 use Huangdijia\Sms\Contracts\Driver;
 use Huangdijia\Sms\Response;
+use Illuminate\Support\Facades\Validator;
 use InvalidArgumentException;
 use Throwable;
 
@@ -20,8 +21,8 @@ class Sms
 
     /**
      * Set to
-     * @param string $to 
-     * @return $this 
+     * @param string $to
+     * @return $this
      */
     public function to($to)
     {
@@ -32,8 +33,8 @@ class Sms
 
     /**
      * Set content
-     * @param string $content 
-     * @return $this 
+     * @param string $content
+     * @return $this
      */
     public function content($content)
     {
@@ -44,17 +45,24 @@ class Sms
 
     /**
      * Send
-     * @return Response|void 
+     * @return Response|void
      */
     public function send()
     {
         try {
-            if ('' == $this->to) {
-                throw new InvalidArgumentException("to is empty.", 1);
-            }
+            $config = $this->driver->getConfig();
 
-            if ('' == $this->content) {
-                throw new InvalidArgumentException("content is empty.", 1);
+            $validator = Validator::make(
+                [
+                    'to'      => $this->to,
+                    'content' => $this->content,
+                ],
+                $config['validators']['rules'] ?? [],
+                $config['validators']['messages'] ?? []
+            );
+
+            if ($validator->fails()) {
+                throw new InvalidArgumentException($validator->errors()->first(), 1);
             }
 
             return new Response($this->driver->send($this->to, $this->content));
@@ -65,7 +73,7 @@ class Sms
 
     /**
      * Get info
-     * @return array 
+     * @return array
      */
     public function info()
     {

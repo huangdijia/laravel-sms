@@ -14,17 +14,31 @@ class Mitake implements Driver
     ];
     protected $config;
 
+    /**
+     * Construct
+     * @param array $config
+     * @return void
+     */
     public function __construct(array $config)
     {
         $this->config = $config;
     }
 
     /**
+     * Get config
+     * @return array
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
      * Send
-     * @param mixed $to 
-     * @param mixed $content 
-     * @return true 
-     * @throws RequestException 
+     * @param mixed $to
+     * @param mixed $content
+     * @return true
+     * @throws RequestException
      */
     public function send(string $to, string $content)
     {
@@ -51,7 +65,7 @@ class Mitake implements Driver
 
     /**
      * Get the info of account
-     * @return array 
+     * @return array
      */
     public function info()
     {
