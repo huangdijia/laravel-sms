@@ -13,6 +13,8 @@ class Sms
     protected $content;
     protected $driver;
     protected $to;
+    protected $rules    = [];
+    protected $messages = [];
 
     public function __construct(Driver $driver)
     {
@@ -44,21 +46,33 @@ class Sms
     }
 
     /**
+     * Validate
+     * @param array $rules 
+     * @param array $messages 
+     * @return $this 
+     */
+    public function withRules(array $rules = [], array $messages = [])
+    {
+        $this->rules    = $rules;
+        $this->messages = $messages;
+
+        return $this;
+    }
+
+    /**
      * Send
      * @return Response|void
      */
     public function send()
     {
         try {
-            $config = $this->driver->getConfig();
-
             $validator = Validator::make(
                 [
                     'to'      => $this->to,
                     'content' => $this->content,
                 ],
-                $config['validators']['rules'] ?? [],
-                $config['validators']['messages'] ?? []
+                $this->rules,
+                $this->messages,
             );
 
             if ($validator->fails()) {

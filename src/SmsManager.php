@@ -6,8 +6,9 @@ use Closure;
 use InvalidArgumentException;
 
 /**
- * @method public static \Huangdijia\Sms\Sms to($to)
- * @method public static \Huangdijia\Sms\Sms content($content)
+ * @method public static self to(string $to)
+ * @method public static self content(string $content)
+ * @method public static self withRules(array $rules, array $messages)
  * @method public static \Huangdijia\Sms\Response send()
  * @method public static array info()
  * @package Huangdijia\Sms

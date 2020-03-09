@@ -25,15 +25,6 @@ class Mitake implements Driver
     }
 
     /**
-     * Get config
-     * @return array
-     */
-    public function getConfig()
-    {
-        return $this->config;
-    }
-
-    /**
      * Send
      * @param mixed $to
      * @param mixed $content

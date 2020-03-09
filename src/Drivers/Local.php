@@ -7,15 +7,6 @@ use Huangdijia\Sms\Contracts\Driver;
 class Local implements Driver
 {
     /**
-     * Get config
-     * @return array 
-     */
-    public function getConfig()
-    {
-        return [];
-    }
-
-    /**
      * Send
      * @param mixed $to 
      * @param mixed $content 
