@@ -5,7 +5,6 @@ namespace Huangdijia\Sms;
 use Huangdijia\Sms\Contracts\Driver;
 use Huangdijia\Sms\Response;
 use Illuminate\Support\Facades\Validator;
-use InvalidArgumentException;
 use Throwable;
 
 class Sms
@@ -47,9 +46,9 @@ class Sms
 
     /**
      * Validate
-     * @param array $rules 
-     * @param array $messages 
-     * @return $this 
+     * @param array $rules
+     * @param array $messages
+     * @return $this
      */
     public function withRules(array $rules = [], array $messages = [])
     {
@@ -66,22 +65,18 @@ class Sms
     public function send()
     {
         try {
-            $validator = Validator::make(
+            Validator::make(
                 [
                     'to'      => $this->to,
                     'content' => $this->content,
                 ],
                 $this->rules,
                 $this->messages,
-            );
-
-            if ($validator->fails()) {
-                throw new InvalidArgumentException($validator->errors()->first(), 1);
-            }
+            )->validate();
 
             return new Response($this->driver->send($this->to, $this->content));
         } catch (Throwable $e) {
-            return new Response('', $e);
+            return new Response(null, $e);
         }
     }
 
