@@ -51,6 +51,17 @@ class SmsManager
     }
 
     /**
+     * Use a dirver
+     * @param string|null $name 
+     * @return mixed|Sms 
+     * @throws InvalidArgumentException 
+     */
+    public function use(string $name = null)
+    {
+        return $this->driver($name);
+    }
+
+    /**
      * Resolve a instance
      * @param string|null $name 
      * @return mixed|Sms 

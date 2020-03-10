@@ -49,7 +49,7 @@ $response->throw();
 ### Switch sms factory
 
 ~~~php
-Sms::driver('another')->to('phone number')->content('message content')->send();
+Sms::use('another')->to('phone number')->content('message content')->send();
 ~~~
 
 ### With Validate Rules
