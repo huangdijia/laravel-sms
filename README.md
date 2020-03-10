@@ -1,4 +1,8 @@
-# laravel-sms
+# Laravel-sms
+
+[![Latest Stable Version](https://poser.pugx.org/huangdijia/laravel-sms/version.png)](https://packagist.org/packages/huangdijia/laravel-sms)
+[![Total Downloads](https://poser.pugx.org/huangdijia/laravel-sms/d/total.png)](https://packagist.org/packages/huangdijia/laravel-sms)
+[![GitHub license](https://img.shields.io/github/license/huangdijia/laravel-sms)](https://github.com/huangdijia/laravel-sms)
 
 ## Installation
 
