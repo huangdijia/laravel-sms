@@ -8,7 +8,7 @@ use Illuminate\Console\Command;
 
 class SendCommand extends Command
 {
-    protected $signature   = 'sms:send {to : Phone number, split by ,} {content : Message content} {-d|--driver=}';
+    protected $signature   = 'sms:send {to : Phone number, split by ,} {content : Message content} {--D|driver= : Sms driver}';
     protected $description = 'Send message';
 
     public function handle()
