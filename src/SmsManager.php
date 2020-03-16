@@ -53,7 +53,7 @@ class SmsManager
     /**
      * Use a dirver
      * @param string|null $name 
-     * @return mixed|Sms 
+     * @return \Huangdijia\Sms\Sms 
      * @throws InvalidArgumentException 
      */
     public function use(string $name = null)
@@ -64,7 +64,7 @@ class SmsManager
     /**
      * Resolve a instance
      * @param string|null $name 
-     * @return mixed|Sms 
+     * @return \Huangdijia\Sms\Sms 
      * @throws InvalidArgumentException 
      */
     public function driver(string $name = null)
@@ -95,7 +95,7 @@ class SmsManager
     /**
      * Resolve a instance
      * @param mixed $name 
-     * @return Sms 
+     * @return \Huangdijia\Sms\Sms 
      * @throws InvalidArgumentException 
      */
     public function resolve($name)
@@ -116,7 +116,7 @@ class SmsManager
     /**
      * Create a driver
      * @param array $config 
-     * @return object 
+     * @return \Huangdijia\Sms\Contracts\Driver 
      * @throws InvalidArgumentException 
      */
     public function createDriver(array $config)
