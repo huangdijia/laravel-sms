@@ -16,8 +16,8 @@ class Twsms implements Driver
 
     /**
      * Construct
-     * @param array $config 
-     * @return void 
+     * @param array $config
+     * @return void
      */
     public function __construct(array $config)
     {
@@ -26,10 +26,10 @@ class Twsms implements Driver
 
     /**
      * Send
-     * @param mixed $to 
-     * @param mixed $content 
-     * @return true 
-     * @throws RequestException 
+     * @param mixed $to
+     * @param mixed $content
+     * @return true
+     * @throws RequestException
      */
     public function send(string $to, string $content)
     {
@@ -44,18 +44,18 @@ class Twsms implements Driver
             'message'  => iconv('utf-8', $this->config['encoding'] ?? 'big5' . '//IGNORE', $content),
         ];
 
-        $response = Http::post($this->apis['send_sms'], $data)->throw();
+        return tap(Http::retry($this->config['tries'] ?? 1)->post($this->apis['send_sms'], $data)->throw(), function ($response) {
 
-        [$key, $msgid] = explode('=', $response->body());
+            [$key, $msgid] = explode('=', $response->body());
 
-        throw_if($msgid <= 0, new Exception("Send failed"));
+            throw_if($msgid <= 0, new Exception("Send failed"));
 
-        return true;
+        });
     }
 
     /**
      * Get info
-     * @return array 
+     * @return array
      */
     public function info()
     {

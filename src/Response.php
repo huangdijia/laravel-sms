@@ -11,9 +11,9 @@ class Response
 
     /**
      * Construct
-     * @param mixed $response 
-     * @param Throwable|null $exception 
-     * @return void 
+     * @param mixed $response
+     * @param Throwable|null $exception
+     * @return void
      */
     public function __construct($response, Throwable $exception = null)
     {
@@ -23,7 +23,7 @@ class Response
 
     /**
      * Get the response
-     * @return mixed 
+     * @return mixed
      */
     public function response()
     {
@@ -32,7 +32,7 @@ class Response
 
     /**
      * Determine if the request was successful.
-     * @return bool 
+     * @return bool
      */
     public function successful()
     {

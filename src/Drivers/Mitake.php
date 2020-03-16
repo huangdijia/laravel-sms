@@ -28,7 +28,7 @@ class Mitake implements Driver
      * Send
      * @param mixed $to
      * @param mixed $content
-     * @return true
+     * @return \Illuminate\Http\Client\Response
      * @throws RequestException
      */
     public function send(string $to, string $content)
@@ -44,14 +44,11 @@ class Mitake implements Driver
             // 'dlvtime'    => $this->config['dlvtime'],
         ];
 
-        $response = Http::get($this->apis['send_sms'], $data)
-            ->throw();
+        return tap(Http::retry($this->config['tries'] ?? 1)->get($this->apis['send_sms'], $data)->throw(), function ($response) {
+            $result = $this->parseReponse($response->body());
 
-        $result = $this->parseReponse($response->body());
-
-        throw_if(empty($result['statuscode']) || $result['statuscode'] != '1', new Exception($result['Error'], 1));
-
-        return true;
+            throw_if(empty($result['statuscode']) || $result['statuscode'] != '1', new Exception($result['Error'], 1));
+        });
     }
 
     /**

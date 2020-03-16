@@ -28,7 +28,7 @@ class Mxtong implements Driver
      * Send
      * @param mixed $to
      * @param mixed $content
-     * @return true
+     * @return \Illuminate\Http\Client\Response
      * @throws Exception
      * @throws RequestException
      */
@@ -45,36 +45,34 @@ class Mxtong implements Driver
             'PostFixNumber' => $this->config['post_fix_number'] ?? 1,
         ];
 
-        $response = Http::asForm()
-            ->post($this->apis['send_sms'], $data)
-            ->throw();
+        return tap(Http::retry($this->config['tries'] ?? 1)->asForm()->post($this->apis['send_sms'], $data)->throw(), function ($response) {
 
-        if ($response->body() == '') {
-            throw new Exception("Response body is empty!", 401);
-        }
+            if ($response->body() == '') {
+                throw new Exception("Response body is empty!", 401);
+            }
 
-        $XmlObj = false;
+            $XmlObj = false;
 
-        try {
-            $content = preg_replace('/<ROOT[^>]+>/', '<ROOT>', $response->body());
-            $XmlObj  = simplexml_load_string($content);
-        } catch (Exception $e) {
-            throw new Exception('Parse xml error:' . $e->getMessage(), 402);
-        }
+            try {
+                $content = preg_replace('/<ROOT[^>]+>/', '<ROOT>', $response->body());
+                $XmlObj  = simplexml_load_string($content);
+            } catch (Exception $e) {
+                throw new Exception('Parse xml error:' . $e->getMessage(), 402);
+            }
 
-        throw_if(false === $XmlObj || !is_object($XmlObj),
-            new Exception('Parse xml failed', 402)
-        );
+            throw_if(false === $XmlObj || !is_object($XmlObj),
+                new Exception('Parse xml failed', 402)
+            );
 
-        throw_if(!isset($XmlObj->RetCode) || $XmlObj->RetCode != 'Sucess',
-            new Exception('Sended failed:' . $XmlObj->Message, 402)
-        );
+            throw_if(!isset($XmlObj->RetCode) || $XmlObj->RetCode != 'Sucess',
+                new Exception('Sended failed:' . $XmlObj->Message, 402)
+            );
 
-        throw_if(isset($XmlObj->OKPhoneCounts) && 0 == $XmlObj->OKPhoneCounts,
-            new Exception('Sended all failed:' . $XmlObj->Message, 403)
-        );
+            throw_if(isset($XmlObj->OKPhoneCounts) && 0 == $XmlObj->OKPhoneCounts,
+                new Exception('Sended all failed:' . $XmlObj->Message, 403)
+            );
 
-        return true;
+        });
     }
 
     /**

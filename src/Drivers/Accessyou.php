@@ -17,8 +17,8 @@ class Accessyou implements Driver
 
     /**
      * Construct
-     * @param array $config 
-     * @return void 
+     * @param array $config
+     * @return void
      */
     public function __construct(array $config)
     {
@@ -27,10 +27,10 @@ class Accessyou implements Driver
 
     /**
      * Send
-     * @param mixed $to 
-     * @param mixed $content 
-     * @return true 
-     * @throws RequestException 
+     * @param mixed $to
+     * @param mixed $content
+     * @return \Illuminate\Http\Client\Response
+     * @throws RequestException
      */
     public function send(string $to, string $content)
     {
@@ -41,22 +41,19 @@ class Accessyou implements Driver
             'pwd'       => $this->config['password'],
         ];
 
-        $response = Http::get($this->apis['send_sms'], $data)
-            ->throw();
+        return tap(Http::retry($this->config['tries'] ?? 1)->get($this->apis['send_sms'], $data)->throw(), function ($response) {
+            $content = trim($response->body());
 
-        $content = trim($response->body());
+            throw_if($content == '', new Exception("Response body is empty!"));
 
-        throw_if($content == '', new Exception("Response body is empty!"));
-
-        throw_if(!is_numeric($content), new Exception($content));
-
-        return true;
+            throw_if(!is_numeric($content), new Exception($content));
+        });
     }
 
     /**
      * Get the info of account
-     * @return array 
-     * @throws RequestException 
+     * @return array
+     * @throws RequestException
      */
     public function info()
     {
@@ -84,8 +81,8 @@ class Accessyou implements Driver
 
     /**
      * Encode sms content
-     * @param string $str 
-     * @return string|string[]|null 
+     * @param string $str
+     * @return string|string[]|null
      */
     private static function msgEncode($str = '')
     {
@@ -94,8 +91,8 @@ class Accessyou implements Driver
 
     /**
      * Replace chars
-     * @param mixed $str 
-     * @return string|string[]|null 
+     * @param mixed $str
+     * @return string|string[]|null
      */
     private static function unicodeGet($str)
     {
@@ -106,9 +103,9 @@ class Accessyou implements Driver
 
     /**
      * Convert
-     * @param mixed $language 
-     * @param mixed $cell 
-     * @return string|void 
+     * @param mixed $language
+     * @param mixed $cell
+     * @return string|void
      */
     private static function convert($language, $cell)
     {
@@ -140,8 +137,8 @@ class Accessyou implements Driver
 
     /**
      * encode unicode
-     * @param mixed $c 
-     * @return int|void 
+     * @param mixed $c
+     * @return int|void
      */
     private static function chineseUnicode($c)
     {
@@ -168,8 +165,8 @@ class Accessyou implements Driver
 
     /**
      * encode utf8 unicode
-     * @param mixed $str 
-     * @return array 
+     * @param mixed $str
+     * @return array
      */
     private static function utf8Unicode($str)
     {

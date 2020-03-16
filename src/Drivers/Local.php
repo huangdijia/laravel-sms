@@ -10,11 +10,11 @@ class Local implements Driver
      * Send
      * @param mixed $to 
      * @param mixed $content 
-     * @return true 
+     * @return null 
      */
     public function send(string $to, string $content)
     {
-        return true;
+        return null;
     }
 
     /**

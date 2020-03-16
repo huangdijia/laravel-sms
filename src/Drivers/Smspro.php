@@ -29,8 +29,8 @@ class Smspro implements Driver
 
     /**
      * Construct
-     * @param array $config 
-     * @return void 
+     * @param array $config
+     * @return void
      */
     public function __construct(array $config)
     {
@@ -39,11 +39,11 @@ class Smspro implements Driver
 
     /**
      * Send
-     * @param mixed $to 
-     * @param mixed $content 
-     * @return true 
-     * @throws Exception 
-     * @throws RequestException 
+     * @param mixed $to
+     * @param mixed $content
+     * @return \Illuminate\Http\Client\Response
+     * @throws Exception
+     * @throws RequestException
      */
     public function send(string $to, string $content)
     {
@@ -57,29 +57,29 @@ class Smspro implements Driver
             "Sender"       => $this->config['sender'],
         );
 
-        $response = Http::asForm()->post($this->apis['send_sms'], $data)->throw();
-        $content  = trim($response->body());
+        return tap(Http::retry($this->config['tries'] ?? 1)->asForm()->post($this->apis['send_sms'], $data)->throw(), function ($response) {
+            $content = trim($response->body());
 
-        throw_if($content == '', new Exception('Response body is empty!', 402));
+            throw_if($content == '', new Exception('Response body is empty!', 402));
 
-        try {
-            $result = simplexml_load_string($content);
-            $result = json_encode($result);
-            $result = json_decode($result);
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage(), 403);
-        }
+            try {
+                $result = simplexml_load_string($content);
+                $result = json_encode($result);
+                $result = json_decode($result);
+            } catch (Exception $e) {
+                throw new Exception($e->getMessage(), 403);
+            }
 
-        throw_if($result->State != 1, new Exception(self::$stateMap[$result->State] ?? 'Unknown error', 500));
+            throw_if($result->State != 1, new Exception(self::$stateMap[$result->State] ?? 'Unknown error', 500));
 
-        return true;
+        });
     }
 
     /**
      * Get info
-     * @return array 
-     * @throws Exception 
-     * @throws RequestException 
+     * @return array
+     * @throws Exception
+     * @throws RequestException
      */
     public function info()
     {
