@@ -23,7 +23,7 @@ class Response
 
     /**
      * Get the response
-     * @return mixed
+     * @return \Illuminate\Http\Client\Response|null
      */
     public function response()
     {
