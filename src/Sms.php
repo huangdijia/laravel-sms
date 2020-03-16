@@ -74,9 +74,11 @@ class Sms
                 $this->messages,
             )->validate();
 
-            return new Response($this->driver->send($this->to, $this->content));
+            return new Response(retry(3, function () {
+                return $this->driver->send($this->to, $this->content);
+            }));
         } catch (Throwable $e) {
-            return new Response(null, $e);
+            return new Response(false, $e);
         }
     }
 
