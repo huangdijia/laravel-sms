@@ -6,6 +6,9 @@ use Throwable;
 
 class Response
 {
+    /**
+     * @var \Illuminate\Http\Client\Response
+     */
     protected $response;
     protected $exception;
 
@@ -52,5 +55,16 @@ class Response
         }
 
         throw $this->exception;
+    }
+
+    /**
+     * call
+     * @param string $name 
+     * @param array|null $arguments 
+     * @return mixed 
+     */
+    public function __call($name, $arguments)
+    {
+        return $this->response->{$name}(...$arguments);
     }
 }
