@@ -60,7 +60,7 @@ class Sms
 
     /**
      * Send
-     * @return Response|void
+     * @return Response
      */
     public function send()
     {
