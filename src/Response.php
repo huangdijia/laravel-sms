@@ -26,7 +26,7 @@ class Response
 
     /**
      * Get the response
-     * @return \Illuminate\Http\Client\Response|null
+     * @return \Illuminate\Http\Client\Response
      */
     public function response()
     {

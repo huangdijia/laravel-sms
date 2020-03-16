@@ -8,7 +8,7 @@ interface Driver
      * Send
      * @param string $to 
      * @param string $content 
-     * @return \Illuminate\Http\Client\Response|null 
+     * @return \Illuminate\Http\Client\Response 
      */
     public function send(string $to, string $content);
 
