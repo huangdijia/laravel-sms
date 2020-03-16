@@ -13,6 +13,7 @@ class SmsServiceProvider extends ServiceProvider
 
             $this->commands([
                 Console\InstallCommand::class,
+                Console\SendCommand::class,
             ]);
         }
     }
