@@ -10,6 +10,9 @@ class Response
      * @var \Illuminate\Http\Client\Response
      */
     protected $response;
+    /**
+     * @var Throwable|null
+     */
     protected $exception;
 
     /**
@@ -37,6 +40,15 @@ class Response
      * Determine if the request was successful.
      * @return bool
      */
+    public function ok()
+    {
+        return $this->successful();
+    }
+
+    /**
+     * Determine if the request was successful.
+     * @return bool
+     */
     public function successful()
     {
         return is_null($this->exception);
@@ -49,7 +61,8 @@ class Response
      *
      * @throws \Throwable
      */
-    function throw () {
+    public function throw ()
+    {
         if ($this->successful()) {
             return $this;
         }
