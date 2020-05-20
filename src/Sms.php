@@ -62,19 +62,19 @@ class Sms
      * Send
      * @return Response
      */
-    public function send()
+    public function send($to = null, $content = null)
     {
+        $to      = $to ?? $this->to;
+        $content = $content ?? $this->content;
+
         try {
             Validator::make(
-                [
-                    'to'      => $this->to,
-                    'content' => $this->content,
-                ],
+                compact('to', 'content'),
                 $this->rules,
                 $this->messages,
             )->validate();
 
-            return new Response($this->driver->send($this->to, $this->content));
+            return new Response($this->driver->send($to, $content));
         } catch (Throwable $e) {
             return new Response(false, $e);
         }

@@ -27,10 +27,9 @@ class SendCommand extends Command
 
         try {
             Sms::driver($driver)->to($to)->content($content)->send()->throw();
+            $this->info('Sent success!');
         } catch (Exception $e) {
             $this->error($e->getMessage());
         }
-
-        $this->info('Sent success!');
     }
 }
