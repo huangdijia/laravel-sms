@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Http;
 
 class Mxtong implements Driver
 {
-    protected $apis = [
-        'send_sms' => 'http://61.143.63.169:8080/GateWay/Services.asmx/DirectSend',
-    ];
     protected $config;
 
     /**
@@ -45,7 +42,7 @@ class Mxtong implements Driver
             'PostFixNumber' => $this->config['post_fix_number'] ?? 1,
         ];
 
-        return tap(Http::retry($this->config['tries'] ?? 1)->asForm()->post($this->apis['send_sms'], $data)->throw(), function ($response) {
+        return tap(Http::retry($this->config['tries'] ?? 1)->asForm()->post($this->config['send_url'], $data)->throw(), function ($response) {
 
             if ($response->body() == '') {
                 throw new Exception("Response body is empty!", 401);

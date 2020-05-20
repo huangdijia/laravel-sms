@@ -9,10 +9,6 @@ use Illuminate\Support\Facades\Http;
 
 class Smspro implements Driver
 {
-    protected $apis = [
-        'send_sms'    => 'https://api3.hksmspro.com/service/smsapi.asmx/SendSMS',
-        'get_balance' => 'https://api3.hksmspro.com/service/smsapi.asmx/GetBalance',
-    ];
     protected $config;
     protected static $stateMap = [
         1   => 'Message	Sent',
@@ -57,7 +53,7 @@ class Smspro implements Driver
             "Sender"       => $this->config['sender'],
         );
 
-        return tap(Http::retry($this->config['tries'] ?? 1)->asForm()->post($this->apis['send_sms'], $data)->throw(), function ($response) {
+        return tap(Http::retry($this->config['tries'] ?? 1)->asForm()->post($this->config['send_url'], $data)->throw(), function ($response) {
             $content = trim($response->body());
 
             throw_if($content == '', new Exception('Response body is empty!', 402));
@@ -90,7 +86,7 @@ class Smspro implements Driver
             'UserDefineNo' => '',
         ];
 
-        $response = Http::asForm()->post($this->apis['get_balance'], $data)->throw();
+        $response = Http::asForm()->post($this->config['check_url'], $data)->throw();
         $content  = trim($response->body());
 
         throw_if($content == '', new Exception('Response body is empty!', 402));

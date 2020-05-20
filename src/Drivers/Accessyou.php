@@ -9,10 +9,6 @@ use Illuminate\Support\Facades\Http;
 
 class Accessyou implements Driver
 {
-    private $apis = [
-        'send_sms'      => 'http://api.accessyou.com/sms/sendsms.php',
-        'check_accinfo' => 'https://q.accessyou-api.com/sms/check_accinfo.php?accountno=%s&user=%s&pwd=%s',
-    ];
     protected $config;
 
     /**
@@ -41,7 +37,7 @@ class Accessyou implements Driver
             'pwd'       => $this->config['password'],
         ];
 
-        return tap(Http::retry($this->config['tries'] ?? 1)->get($this->apis['send_sms'], $data)->throw(), function ($response) {
+        return tap(Http::retry($this->config['tries'] ?? 1)->get($this->config['send_url'], $data)->throw(), function ($response) {
             $content = trim($response->body());
 
             throw_if($content == '', new Exception("Response body is empty!"));
@@ -58,7 +54,7 @@ class Accessyou implements Driver
     public function info()
     {
         $url = sprintf(
-            $this->apis['check_accinfo'],
+            $this->config['check_url'],
             $this->config['account'],
             $this->config['check_user'],
             $this->config['check_password']

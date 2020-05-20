@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Http;
 
 class Twsms implements Driver
 {
-    protected $apis = [
-        'send_sms' => 'http://api.twsms.com/send.php',
-    ];
     protected $config;
 
     /**
@@ -44,7 +41,7 @@ class Twsms implements Driver
             'message'  => iconv('utf-8', $this->config['encoding'] ?? 'big5' . '//IGNORE', $content),
         ];
 
-        return tap(Http::retry($this->config['tries'] ?? 1)->post($this->apis['send_sms'], $data)->throw(), function ($response) {
+        return tap(Http::retry($this->config['tries'] ?? 1)->post($this->config['send_url'], $data)->throw(), function ($response) {
 
             [$key, $msgid] = explode('=', $response->body());
 

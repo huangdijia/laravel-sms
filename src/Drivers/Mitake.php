@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Http;
 
 class Mitake implements Driver
 {
-    protected $apis = [
-        'send_sms' => 'http://smexpress.mitake.com.tw:9600/SmSendGet.asp',
-    ];
     protected $config;
 
     /**
@@ -44,7 +41,7 @@ class Mitake implements Driver
             // 'dlvtime'    => $this->config['dlvtime'],
         ];
 
-        return tap(Http::retry($this->config['tries'] ?? 1)->get($this->apis['send_sms'], $data)->throw(), function ($response) {
+        return tap(Http::retry($this->config['tries'] ?? 1)->get($this->config['send_url'], $data)->throw(), function ($response) {
             $result = $this->parseReponse($response->body());
 
             throw_if(empty($result['statuscode']) || $result['statuscode'] != '1', new Exception($result['Error'], 1));
