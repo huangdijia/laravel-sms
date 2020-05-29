@@ -71,7 +71,7 @@ class Sms
             Validator::make(
                 compact('to', 'content'),
                 $this->rules,
-                $this->messages,
+                $this->messages
             )->validate();
 
             return new Response($this->driver->send($to, $content));
