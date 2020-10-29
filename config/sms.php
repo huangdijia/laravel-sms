@@ -56,8 +56,10 @@ return [
             'tries'    => 1,
         ],
         'aliyun'    => [
+            'driver'        => \Huangdijia\Sms\Drivers\Aliyun::class,
             'access_key'    => env('ALIYUN_ACCESS_KEY', ''),
             'access_secret' => env('ALIYUN_ACCESS_SECRET', ''),
+            'template_code' => env('ALIYUN_TEMPLATE_CODE'),
             'tries'         => 1,
         ],
     ],

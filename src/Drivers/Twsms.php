@@ -25,7 +25,7 @@ class Twsms implements Driver
      * Send
      * @param mixed $to
      * @param mixed $content
-     * @return true
+     * @return \Illuminate\Http\Client\Response
      * @throws RequestException
      */
     public function send(string $to, string $content)
