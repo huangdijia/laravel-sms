@@ -17,7 +17,8 @@
         "illuminate/support": "^7.0|^8.0",
         "illuminate/notifications": "^7.0|^8.0",
         "illuminate/contracts": "^7.0|^8.0",
-        "guzzlehttp/guzzle": "^6.4|^7.0"
+        "guzzlehttp/guzzle": "^6.4|^7.0",
+        "alibabacloud/client": "^1.5"
     },
     "require-dev": {
         "orchestra/testbench": "^5.0"

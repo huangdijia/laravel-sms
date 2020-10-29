@@ -55,5 +55,10 @@ return [
             'dlvtime'  => env('TWSMS_DLVTIME', ''),
             'tries'    => 1,
         ],
+        'aliyun'    => [
+            'access_key'    => env('ALIYUN_ACCESS_KEY', ''),
+            'access_secret' => env('ALIYUN_ACCESS_SECRET', ''),
+            'tries'         => 1,
+        ],
     ],
 ];
