@@ -47,12 +47,7 @@ class Aliyun implements Driver
 
         $action = 'SendMessageToGlobe';
 
-        if (preg_match('/^\d{8}$/', $to)) { // HK
-            $to = '852' . $to;
-        } elseif (preg_match('/^0\d{8}/', $to)) { // TW
-            $to = '886' . $to;
-        } elseif (preg_match('/^1\d{10}/', $to)) { // CN
-            $to     = '86' . $to;
+        if (preg_match('/^861\d{10}/', $to)) { // CN
             $action = 'SendMessageWithTemplate';
         }
 
