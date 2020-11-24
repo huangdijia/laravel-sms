@@ -53,14 +53,14 @@ class Accessyou implements Driver
      */
     public function info()
     {
-        $url = sprintf(
-            $this->config['check_url'],
-            $this->config['account'],
-            $this->config['check_user'],
-            $this->config['check_password']
-        );
+        // ?accountno=%s&user=%s&pwd=%s
+        $query = [
+            'accountno' => $this->config['account'],
+            'user'      => $this->config['check_user'],
+            'pwd'       => $this->config['check_password'],
+        ];
 
-        $response = Http::get($url)->throw();
+        $response = Http::get($this->config['check_url'], $query)->throw();
 
         $xml = simplexml_load_string($response);
         $xml = json_encode($xml);

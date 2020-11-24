@@ -8,8 +8,8 @@ return [
             'driver' => \Huangdijia\Sms\Drivers\Local::class,
         ],
         'accessyou' => [
-            'send_url'       => 'http://api.accessyou.com/sms/sendsms.php',
-            'check_url'      => 'https://q.accessyou-api.com/sms/check_accinfo.php?accountno=%s&user=%s&pwd=%s',
+            'send_url'       => 'http://basic.accessyou-api.com/sms/sendsms-utf8-senderid.php', // ?accountno=11032727&pwd=85918591&from=K8591&phone=85298882844&msg=hello
+            'check_url'      => 'https://q.accessyou-api.com/sms/check_accinfo.php', // ?accountno=%s&user=%s&pwd=%s
             'driver'         => \Huangdijia\Sms\Drivers\Accessyou::class,
             'account'        => env('ACCESSYOU_ACCOUNT', ''),
             'password'       => env('ACCESSYOU_PASSWORD', ''),
