@@ -35,6 +35,8 @@ class Accessyou implements Driver
             'phone'     => '852' . $to,
             'accountno' => $this->config['account'],
             'pwd'       => $this->config['password'],
+            'from'      => $this->config['from'] ?? '',
+            'size'      => $this->config['size'] ?? 'l',
         ];
 
         return tap(Http::retry($this->config['tries'] ?? 1)->get($this->config['send_url'], $data)->throw(), function ($response) {

@@ -13,6 +13,8 @@ return [
             'driver'         => \Huangdijia\Sms\Drivers\Accessyou::class,
             'account'        => env('ACCESSYOU_ACCOUNT', ''),
             'password'       => env('ACCESSYOU_PASSWORD', ''),
+            'from'           => env('ACCESSYOU_FROM', ''),
+            'size'           => env('ACCESSYOU_SIZE', 'l'),
             'check_user'     => env('ACCESSYOU_CHECK_USER', ''),
             'check_password' => env('ACCESSYOU_CHECK_PASSWORD', ''),
             'tries'          => 1,
